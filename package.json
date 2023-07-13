@@ -1,0 +1,18 @@
+{
+  "name": "dns-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node ./src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.4.2"
+  },
+  "dependencies": {
+    "dgram": "^1.0.1"
+  }
+}
