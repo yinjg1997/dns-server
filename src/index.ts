@@ -1,7 +1,8 @@
-const dgram = require("dgram");
-const server = dgram.createSocket("udp4");
+import { RemoteInfo, createSocket } from "node:dgram";
 
-function parseHost(msg) {
+const server = createSocket("udp4");
+
+function parseHost(msg: Buffer) {
   //转换域名
   let num = msg[0];
   let offset = 1;
@@ -16,13 +17,13 @@ function parseHost(msg) {
   return host;
 }
 
-function copyBuffer(src, offset, dst) {
+function copyBuffer(src: Buffer, offset: number, dst: Buffer) {
   for (let i = 0; i < src.length; ++i) {
     dst.writeUInt8(src.readUInt8(i), offset + i);
   }
 }
 
-function resolve(msg, rinfo, ip) {
+function resolve(msg: Buffer, rinfo: RemoteInfo, ip: string) {
   const queryInfo = msg.subarray(12);
   const response = Buffer.alloc(28 + queryInfo.length);
   let offset = 0;
@@ -58,11 +59,11 @@ function resolve(msg, rinfo, ip) {
   offset += 2;
 
   console.log("responseIP: ", ip);
-  ip.split(".").forEach(value => {
+  ip.split(".").forEach((value: string) => {
     response.writeUInt8(parseInt(value), offset);
     offset += 1;
   });
-  server.send(response, rinfo.port, rinfo.address, err => {
+  server.send(response, rinfo.port, rinfo.address, (err) => {
     if (err) {
       console.log(err);
       server.close();
@@ -70,19 +71,19 @@ function resolve(msg, rinfo, ip) {
   });
 }
 
-function forward(msg, rinfo) {
-  const client = dgram.createSocket("udp4");
-  client.on("error", err => {
+function forward(msg: Buffer, rinfo: RemoteInfo) {
+  const client = createSocket("udp4");
+  client.on("error", (err) => {
     console.log(`client error:\n${err.stack}`);
     client.close();
   });
   client.on("message", (fbMsg, fbRinfo) => {
-    server.send(fbMsg, rinfo.port, rinfo.address, err => {
+    server.send(fbMsg, rinfo.port, rinfo.address, (err) => {
       err && console.log(err);
     });
     client.close();
   });
-  client.send(msg, 53, "192.168.199.1", err => {
+  client.send(msg, 53, "192.168.199.1", (err) => {
     if (err) {
       console.log(err);
       client.close();
@@ -103,8 +104,7 @@ server.on("message", (msg, rinfo) => {
   }
 });
 
-
-server.on("error", err => {
+server.on("error", (err: Error) => {
   console.log(`server error:\n${err.stack}`);
   server.close();
 });

@@ -1,5 +1,6 @@
-const dgram = require("dgram");
-const client = dgram.createSocket("udp4");
+import { RemoteInfo, createSocket } from "node:dgram";
+
+const client = createSocket("udp4");
 
 const serverIP = "49.232.246.246"; // 服务器的IP地址
 // const serverIP = "127.0.0.1"; // 服务器的IP地址
