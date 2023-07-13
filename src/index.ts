@@ -92,18 +92,25 @@ const server = dgram.createSocket("udp4");
 //   });
 // }
 
-// server.on("message", (msg, rinfo) => {
-//   const host = parseHost(msg.subarray(12));
-//   console.log(`query: ${host}`);
+/**
+ * 获取
+ */
+server.on("message", (msg, rinfo) => {
+  console.log(typeof msg);
+  
+  console.log(ms);
+  
+  // const host = parseHost(msg.subarray(12));
+  // console.log(`query: ${host}`);
 
-//   if (/guangguangguang/.test(host)) {
-//     resolve(msg, rinfo);
-//   } else {
-//     forward(msg, rinfo);
-//   }
-// });
+  // if (/guangguangguang/.test(host)) {
+  //   resolve(msg, rinfo);
+  // } else {
+  //   forward(msg, rinfo);
+  // }
+});
 
-server.on("error", (err: Error) => {
+server.on("error", (err) => {
   console.log(`server error:\n${err.stack}`);
   server.close();
 });
