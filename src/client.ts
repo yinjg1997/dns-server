@@ -2,8 +2,8 @@ import { RemoteInfo, createSocket } from "node:dgram";
 
 const client = createSocket("udp4");
 
-const serverIP = "49.232.246.246"; // 服务器的IP地址
-// const serverIP = "127.0.0.1"; // 服务器的IP地址
+// const serverIP = "49.232.246.246"; // 服务器的IP地址
+const serverIP = "127.0.0.1"; // 服务器的IP地址
 const serverPort = 53; // 服务器的端口号
 
 // 构建DNS请求数据包
@@ -15,8 +15,9 @@ message.writeUInt16BE(0x0001, 4); // Questions count
 
 // 添加查询部分
 // const queryName = "www.baidu.com";
-const queryName = "127.0.0.22.nip.zeze.work";
-// const queryName = "127.0.0.22.nip.zeze.work";
+// const queryName = "customer3-app-7f000101.nip2.zeze.work";
+const queryName = "127.0.0.22.nip2.zeze.work";
+// const queryName = "www.nip2.zeze.abc";
 const queryNameParts = queryName.split(".");
 let offset = 12;
 for (const part of queryNameParts) {
